@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.prm_group_project.ui.theme.PRM_Group_ProjectTheme
+import com.example.prm_group_project.DBContext
+import java.sql.Connection
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +28,19 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+        val connection: Connection = DBContext.connect()
+
+        if (connection != null) {
+            println("Database connection successful!")
+            try {
+                connection.close()
+                println("Connection closed.")
+            } catch (e: Exception) {
+                println("Error closing connection: " + e.message)
+            }
+        } else {
+            println("Database connection failed!")
         }
     }
 }
